@@ -11,10 +11,10 @@ description: >-
 
 Usa questa skill solo se l'utente ha chiesto esplicitamente il file audio.
 
-I file persistenti vanno in `~/Desktop/yt-dlp`, anche nelle sottocartelle per
-canale create dal template `-o`. Quella è l'unica cartella di destinazione
-predefinita. Se l'utente indica un altro path, usa quello e non cancellarlo.
-Non creare altre cartelle e non usare la cartella temporanea dell'inferenza.
+I file persistenti vanno in `~/Desktop/yt-dlp/audio/<canale>/`. Quella è la
+cartella di destinazione predefinita. Se l'utente indica un altro path, usa
+quello e non cancellarlo. Non creare altre cartelle e non usare la cartella
+temporanea dell'inferenza.
 
 ## Requisiti
 

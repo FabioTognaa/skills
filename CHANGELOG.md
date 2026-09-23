@@ -7,7 +7,10 @@ e questo progetto aderisce a [Semantic Versioning](https://semver.org/lang/it/).
 
 ## [Unreleased]
 
-Modifiche già fatte ma non ancora incluse in una release pubblica.
+### Changed
+- `yt-dlp-audio` e `yt-dlp-video`: destinazioni predefinite separate in
+  `~/Desktop/yt-dlp/audio/` e `~/Desktop/yt-dlp/video/` per evitare che
+  download multipli dello stesso video si sovrascrivano.
 
 ## [0.1.0] - 2026-09-23
 

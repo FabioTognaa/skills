@@ -3,7 +3,7 @@ set -euo pipefail
 
 URL="${1:-}"
 HEIGHT="${2:-best}"
-OUTDIR="${3:-$HOME/Desktop/yt-dlp}"
+OUTDIR="${3:-$HOME/Desktop/yt-dlp/video}"
 
 if [[ -z "$URL" ]]; then
   echo "Uso: $0 <URL> [altezza] [outdir]" >&2

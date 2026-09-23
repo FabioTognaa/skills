@@ -72,8 +72,8 @@ In Cursor dovresti poter usare i comandi:
 ### `yt-dlp-audio`
 
 Scarica **solo l’audio** di un video YouTube (o di un’altra piattaforma supportata
-da yt-dlp) nella cartella `~/Desktop/yt-dlp`. Usala solo quando l’utente chiede
-esplicitamente di scaricare l’audio.
+da yt-dlp) in `~/Desktop/yt-dlp/audio/<canale>/`. Usala solo quando l’utente
+chiede esplicitamente di scaricare l’audio.
 
 #### Uso base
 
@@ -93,7 +93,7 @@ Lo script sottostante accetta fino a 4 argomenti:
 |-----------|---------|-------------|
 | `URL` | — | link al video o playlist |
 | `formato` | `best` | formato audio finale (`mp3`, `m4a`, `flac`, …) |
-| `outdir` | `~/Desktop/yt-dlp` | cartella di destinazione |
+| `outdir` | `~/Desktop/yt-dlp/audio` | cartella di destinazione |
 | `qualita` | `ba/b` | formato yt-dlp (`ba/b` = migliore, `wa/w` = minima) |
 
 #### Esempi
@@ -113,13 +113,14 @@ Audio in MP3:
 Qualità minima:
 
 ```bash
-~/.cursor/skills/yt-dlp-audio/scripts/download.sh "URL" best ~/Desktop/yt-dlp wa/w
+~/.cursor/skills/yt-dlp-audio/scripts/download.sh "URL" best ~/Desktop/yt-dlp/audio wa/w
 ```
 
 ### `yt-dlp-video`
 
-Scarica il **video completo** (video + audio) nella cartella `~/Desktop/yt-dlp`.
-Usala solo quando l’utente chiede esplicitamente di scaricare il video.
+Scarica il **video completo** (video + audio) in
+`~/Desktop/yt-dlp/video/<canale>/`. Usala solo quando l’utente chiede
+esplicitamente di scaricare il video.
 
 #### Uso base
 
@@ -137,7 +138,7 @@ Usala solo quando l’utente chiede esplicitamente di scaricare il video.
 |-----------|---------|-------------|
 | `URL` | — | link al video o playlist |
 | `altezza` | `best` | limite di altezza (`1080`, `720`, …) |
-| `outdir` | `~/Desktop/yt-dlp` | cartella di destinazione |
+| `outdir` | `~/Desktop/yt-dlp/video` | cartella di destinazione |
 
 #### Esempi
 

@@ -3,7 +3,7 @@ set -euo pipefail
 
 URL="${1:-}"
 FORMAT="${2:-best}"
-OUTDIR="${3:-$HOME/Desktop/yt-dlp}"
+OUTDIR="${3:-$HOME/Desktop/yt-dlp/audio}"
 QUALITY="${4:-ba/b}"
 
 if [[ -z "$URL" ]]; then
