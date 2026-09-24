@@ -1,0 +1,5 @@
+interface:
+  display_name: "yt-dlp audio"
+  short_description: "Scarica solo l'audio di un video"
+policy:
+  allow_implicit_invocation: false

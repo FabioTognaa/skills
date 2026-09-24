@@ -1,8 +1,8 @@
-# Cursor Skills — Archivio personale
+# Skill yt-dlp
 
-Piccola raccolta di [Cursor Agent Skills](https://www.cursor.com/) per automatizzare
-compiti ricorrenti da riga di comando. Tutte le skill sono pensate per essere
-invocate dall’agente di Cursor tramite i relativi comandi slash (`/skill`).
+Raccolta personale di [Agent Skills](https://agentskills.io/) per scaricare audio
+e video con yt-dlp, leggere i sottotitoli di un URL e cancellare i download.
+Le skill stanno nel checkout: gli agenti le vedono tramite symlink.
 
 ## Indice
 
@@ -20,8 +20,11 @@ invocate dall’agente di Cursor tramite i relativi comandi slash (`/skill`).
 
 ## Requisiti
 
-- **Cursor** con i Cursor Agent Skills abilitati.
+- **Un agente che legge le Agent Skills**: Claude Code (`~/.claude/skills`),
+  Cursor, Codex e OpenCode (`~/.agents/skills`). OpenCode legge entrambe le
+  cartelle, quindi può elencare ogni skill due volte.
 - **macOS, Linux o WSL/Git Bash su Windows**. Gli script sono in `bash`.
+  I symlink dell’installer funzionano su macOS, Linux e WSL.
 - **`yt-dlp`** installato e presente in `PATH`.
 - **`ffmpeg`** richiesto da `yt-dlp-audio` e `yt-dlp-video`.
 - **`python3`** richiesto da `yt-dlp-inferenza` e `yt-dlp-pulisci`.
@@ -37,28 +40,34 @@ brew install yt-dlp ffmpeg python3
 ### 1. Clona la repo
 
 ```bash
-git clone <URL-REPO-GITHUB> ~/cursor-skills
-cd ~/cursor-skills
+git clone <URL-REPO-GITHUB> ~/yt-dlp-skills
+cd ~/yt-dlp-skills
 ```
 
-### 2. Installa le skill
+### 2. Collega le skill
 
 ```bash
-./install.sh
+./scripts/link-skills.sh
 ```
 
-Lo script copia ogni cartella dentro `skills/` in `~/.cursor/skills/`, che è la
-cartella standard usata da Cursor per gli Agent Skills.
+Lo script crea un symlink per ogni skill in `~/.claude/skills` e in
+`~/.agents/skills`, puntando a questo checkout. Un `git pull` aggiorna i file
+già collegati. Rilancia lo script quando aggiungi una skill, o per togliere
+le copie vecchie in `~/.cursor/skills`.
 
-Se vuoi installarle in una cartella diversa:
+Se in una destinazione esiste già una cartella vera con lo stesso nome, lo
+script la sostituisce con il symlink. Le skill di altre repo, in quelle
+cartelle, restano. I symlink di skill rimosse da questo repo restano anche
+loro: cancellali a mano.
 
-```bash
-SKILL_DIR="$HOME/.agents/skills" ./install.sh
-```
+Lo script rimuove poi, solo in `~/.cursor/skills`, queste quattro voci
+(`yt-dlp-audio`, `yt-dlp-video`, `yt-dlp-inferenza`, `yt-dlp-pulisci`), che
+erano copie del vecchio installer. Il resto di `~/.cursor/skills` non si tocca.
+I link vengono creati prima: se un collegamento fallisce, quelle copie restano.
 
 ### 3. Verifica
 
-In Cursor dovresti poter usare i comandi:
+Nell’agente dovresti poter usare i comandi:
 
 ```
 /yt-dlp-audio URL
@@ -83,10 +92,13 @@ chiede esplicitamente di scaricare l’audio.
 
 #### Parametri dello script
 
+I comandi degli script sono relativi alla cartella della skill (`SKILL.md`).
+L’agente li esegue con il path assoluto di quello script.
+
 Lo script sottostante accetta fino a 4 argomenti:
 
 ```bash
-~/.cursor/skills/yt-dlp-audio/scripts/download.sh <URL> [formato] [outdir] [qualita]
+scripts/download.sh <URL> [formato] [outdir] [qualita]
 ```
 
 | Argomento | Default | Significato |
@@ -101,19 +113,19 @@ Lo script sottostante accetta fino a 4 argomenti:
 Miglior audio, formato originale:
 
 ```bash
-~/.cursor/skills/yt-dlp-audio/scripts/download.sh "https://www.youtube.com/watch?v=..."
+scripts/download.sh "https://www.youtube.com/watch?v=..."
 ```
 
 Audio in MP3:
 
 ```bash
-~/.cursor/skills/yt-dlp-audio/scripts/download.sh "URL" mp3
+scripts/download.sh "URL" mp3
 ```
 
 Qualità minima:
 
 ```bash
-~/.cursor/skills/yt-dlp-audio/scripts/download.sh "URL" best ~/Desktop/yt-dlp/audio wa/w
+scripts/download.sh "URL" best ~/Desktop/yt-dlp/audio wa/w
 ```
 
 ### `yt-dlp-video`
@@ -130,8 +142,11 @@ esplicitamente di scaricare il video.
 
 #### Parametri dello script
 
+I comandi sono relativi alla cartella della skill. L’agente li esegue con il
+path assoluto dello script.
+
 ```bash
-~/.cursor/skills/yt-dlp-video/scripts/download.sh <URL> [altezza] [outdir]
+scripts/download.sh <URL> [altezza] [outdir]
 ```
 
 | Argomento | Default | Significato |
@@ -145,13 +160,13 @@ esplicitamente di scaricare il video.
 Miglior qualità disponibile:
 
 ```bash
-~/.cursor/skills/yt-dlp-video/scripts/download.sh "https://www.youtube.com/watch?v=..."
+scripts/download.sh "https://www.youtube.com/watch?v=..."
 ```
 
 720p:
 
 ```bash
-~/.cursor/skills/yt-dlp-video/scripts/download.sh "URL" 720
+scripts/download.sh "URL" 720
 ```
 
 ### `yt-dlp-inferenza`
@@ -196,10 +211,10 @@ l’utente chiede esplicitamente di eliminare i download.
 /yt-dlp-pulisci ~/Desktop/yt-dlp
 ```
 
-o direttamente:
+o direttamente, dalla cartella della skill:
 
 ```bash
-~/.cursor/skills/yt-dlp-pulisci/scripts/pulisci.sh ~/Desktop/yt-dlp
+scripts/pulisci.sh ~/Desktop/yt-dlp
 ```
 
 #### Sicurezza
@@ -214,24 +229,27 @@ Lo script rifiuta di cancellare:
 
 ## Aggiornare le skill
 
-Dopo aver pullato gli aggiornamenti della repo, riesegui:
+I symlink puntano al checkout: dopo un `git pull` gli agenti leggono già i
+file nuovi. Rilancia il collegamento se hai aggiunto una skill:
 
 ```bash
-cd ~/cursor-skills
-./install.sh
+cd ~/yt-dlp-skills
+./scripts/link-skills.sh
 ```
-
-Lo script sovrascrive le skill esistenti in `~/.cursor/skills/`.
 
 ## Disinstallare
 
-Per rimuovere tutte le skill installate:
+Rimuovi i symlink nelle due destinazioni. Questo non cancella il checkout.
 
 ```bash
-rm -rf ~/.cursor/skills/yt-dlp-audio \
-       ~/.cursor/skills/yt-dlp-video \
-       ~/.cursor/skills/yt-dlp-inferenza \
-       ~/.cursor/skills/yt-dlp-pulisci
+rm ~/.claude/skills/yt-dlp-audio \
+   ~/.claude/skills/yt-dlp-video \
+   ~/.claude/skills/yt-dlp-inferenza \
+   ~/.claude/skills/yt-dlp-pulisci \
+   ~/.agents/skills/yt-dlp-audio \
+   ~/.agents/skills/yt-dlp-video \
+   ~/.agents/skills/yt-dlp-inferenza \
+   ~/.agents/skills/yt-dlp-pulisci
 ```
 
 ## Disclaimer

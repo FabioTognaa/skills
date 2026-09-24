@@ -1,0 +1,5 @@
+interface:
+  display_name: "yt-dlp video"
+  short_description: "Scarica il video completo"
+policy:
+  allow_implicit_invocation: false

@@ -1,10 +1,12 @@
 ---
 name: yt-dlp-inferenza
 description: >-
-  Scarica solo metadati (.info.json) e sottotitoli (.vtt) di un video senza
-  scaricare il media, in modo che l'agente possa leggere il contenuto parlato.
-  Usa quando l'utente chiede di inferire, riassumere o estrarre informazioni da un
-  video, oppure quando chiede sottotitoli o metadati senza il file video.
+  Scarica solo metadati (.info.json) e sottotitoli (.vtt) di un URL video,
+  senza scaricare il media, così puoi leggere il contenuto parlato. Usala
+  quando c'è un URL e il compito è capire il contenuto: riassumere,
+  trascrivere o estrarre fatti, oppure quando l'utente chiede sottotitoli o
+  metadati senza il file. Non usarla per scaricare il video o l'audio, né per
+  cancellare i download, né per un file audio o video già sul disco.
 ---
 
 # Inferenza sul video
@@ -27,10 +29,11 @@ Vanno eliminate tutte a fine lettura, non solo i file.
 
 ## Comando
 
-Sostituisci `URL`. Il flag della lingua è `--sub-langs`.
+Sostituisci `URL`. Il flag della lingua è `--sub-langs`. `SKILL_DIR` è la
+cartella che contiene questo SKILL.md.
 
 ```bash
-DIR="$(~/.cursor/skills/yt-dlp-inferenza/scripts/temp-dir.sh)"
+DIR="$("$SKILL_DIR/scripts/temp-dir.sh")"
 yt-dlp --skip-download \
   --write-info-json \
   --write-subs --write-auto-subs \
@@ -45,8 +48,9 @@ yt-dlp --skip-download \
 
 Se l'utente indica altre opzioni di yt-dlp (lingua, playlist, `-I`, formato
 sottotitoli, path), aggiungile o sostituisci il default corrispondente. Un path
-esplicito sostituisce `-P`. Non togliere `--skip-download`. Per il file video
-usa `yt-dlp-video`, per il solo audio `yt-dlp-audio`.
+esplicito sostituisce `-P`. Non togliere `--skip-download`. Se l'utente vuole
+il file video o il solo audio, digli di lanciare `yt-dlp-video` o
+`yt-dlp-audio`. Non invocare quelle skill: può attivarle solo lui.
 
 Se l'utente indica un path suo, i file vanno lì e quella cartella non si
 cancella da sola: è una destinazione che ha scelto lui. Di' dove sono i file.
@@ -65,7 +69,9 @@ cartella temporanea, sottocartelle incluse. Non deve restare né la cartella né
 le cartelle dei canali:
 
 ```bash
-~/.cursor/skills/yt-dlp-inferenza/scripts/rm-inferenza.sh
+"$SKILL_DIR/scripts/rm-inferenza.sh"
 ```
 
-Non usare `yt-dlp-pulisci` per questi file.
+Non usare `yt-dlp-pulisci` per questi file. Se l'utente vuole cancellare i
+download persistenti, digli di lanciare `yt-dlp-pulisci`. Non invocare quella
+skill: può attivarla solo lui.

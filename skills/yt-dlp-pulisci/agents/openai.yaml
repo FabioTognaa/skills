@@ -1,0 +1,5 @@
+interface:
+  display_name: "yt-dlp pulisci"
+  short_description: "Cancella i download yt-dlp"
+policy:
+  allow_implicit_invocation: false

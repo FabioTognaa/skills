@@ -11,6 +11,16 @@ e questo progetto aderisce a [Semantic Versioning](https://semver.org/lang/it/).
 - `yt-dlp-audio` e `yt-dlp-video`: destinazioni predefinite separate in
   `~/Desktop/yt-dlp/audio/` e `~/Desktop/yt-dlp/video/` per evitare che
   download multipli dello stesso video si sovrascrivano.
+- Installazione tramite `scripts/link-skills.sh`: symlink del checkout in
+  `~/.claude/skills` e `~/.agents/skills`, al posto della copia in
+  `~/.cursor/skills`.
+- I comandi nelle skill sono relativi alla cartella del `SKILL.md`.
+- `yt-dlp-audio`, `yt-dlp-video` e `yt-dlp-pulisci` si attivano solo su
+  richiesta. `yt-dlp-inferenza` resta l’unica che il modello può avviare, e
+  solo per leggere il contenuto di un URL.
+
+### Removed
+- `install.sh`, che copiava le skill in una sola cartella.
 
 ## [0.1.0] - 2026-09-23
 

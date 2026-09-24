@@ -5,6 +5,7 @@ description: >-
   solo quando l'utente chiede esplicitamente di cancellare, pulire o rimuovere i
   file scaricati con yt-dlp-audio o yt-dlp-video. Non usarlo per i file
   temporanei di yt-dlp-inferenza: quelli li gestisce yt-dlp-inferenza stesso.
+disable-model-invocation: true
 ---
 
 # Cancellare i download
@@ -19,10 +20,12 @@ dall'utente. I file dell'inferenza stanno altrove e li rimuove
 
 ## Comando base
 
-Esegui lo script. Non costruire un `rm` a mano.
+Esegui lo script. Non costruire un `rm` a mano. I comandi qui sotto sono
+relativi alla cartella di questo SKILL.md: lancia lo script con il suo path
+assoluto.
 
 ```bash
-~/.cursor/skills/yt-dlp-pulisci/scripts/pulisci.sh
+scripts/pulisci.sh
 ```
 
 Lo script rimuove `~/Desktop/yt-dlp`. Se la cartella non c'è, non è un errore.
@@ -35,7 +38,7 @@ allo script. Lo script rifiuta la home, le cartelle di sistema, `Download`,
 `yt-dlp`, a meno che non sia esattamente il default.
 
 ```bash
-~/.cursor/skills/yt-dlp-pulisci/scripts/pulisci.sh "$HOME/Desktop/yt-dlp"
+scripts/pulisci.sh "$HOME/Desktop/yt-dlp"
 ```
 
 ## Dry run
@@ -43,7 +46,7 @@ allo script. Lo script rifiuta la home, le cartelle di sistema, `Download`,
 Per vedere cosa verrebbe cancellato senza farlo:
 
 ```bash
-~/.cursor/skills/yt-dlp-pulisci/scripts/pulisci.sh --dry-run
+scripts/pulisci.sh --dry-run
 ```
 
 Lancialo solo se l'utente chiede di cancellare quei download. Conferma il path

@@ -1,0 +1,3 @@
+interface:
+  display_name: "yt-dlp inferenza"
+  short_description: "Legge il contenuto parlato di un URL video"

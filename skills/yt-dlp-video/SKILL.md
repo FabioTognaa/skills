@@ -5,6 +5,7 @@ description: >-
   quando l'utente chiede esplicitamente di scaricare o salvare un video
   (scarica il video, download video). Non usarlo per leggere il contenuto di un
   video: per quello c'è yt-dlp-inferenza.
+disable-model-invocation: true
 ---
 
 # Scaricare video
@@ -23,8 +24,10 @@ temporanea dell'inferenza.
 
 ## Comando base
 
+I comandi qui sotto sono relativi alla cartella di questo SKILL.md. Esegui lo script con il suo path assoluto.
+
 ```bash
-~/.cursor/skills/yt-dlp-video/scripts/download.sh "URL"
+scripts/download.sh "URL"
 ```
 
 ## Parametri
@@ -32,27 +35,27 @@ temporanea dell'inferenza.
 Il script accetta fino a 3 argomenti:
 
 ```bash
-~/.cursor/skills/yt-dlp-video/scripts/download.sh <URL> [altezza] [outdir]
+scripts/download.sh <URL> [altezza] [outdir]
 ```
 
 | Argomento | Default | Significato |
 |-----------|---------|-------------|
 | `URL` | — | link al video o playlist |
 | `altezza` | `best` | limite di altezza (`1080`, `720`, `480`, …) |
-| `outdir` | `~/Desktop/yt-dlp` | cartella di destinazione |
+| `outdir` | `~/Desktop/yt-dlp/video` | cartella di destinazione |
 
 ## Esempi
 
 Miglior qualità disponibile:
 
 ```bash
-~/.cursor/skills/yt-dlp-video/scripts/download.sh "https://www.youtube.com/watch?v=..."
+scripts/download.sh "https://www.youtube.com/watch?v=..."
 ```
 
 720p:
 
 ```bash
-~/.cursor/skills/yt-dlp-video/scripts/download.sh "URL" 720
+scripts/download.sh "URL" 720
 ```
 
 ## Adattare la richiesta
@@ -62,5 +65,6 @@ velocità, cookie o un path, applica quelle opzioni al posto del default
 corrispondente. Un path esplicito sostituisce `outdir`. Non aggiungere `-x`:
 l'audio solo è compito di `yt-dlp-audio`.
 
-Al termine indica il path del file scaricato. Non cancellare la cartella:
-lo fa `yt-dlp-pulisci` quando l'utente lo chiede.
+Al termine indica il path del file scaricato. Non cancellare la cartella.
+Se l'utente vuole cancellarla, digli di lanciare `yt-dlp-pulisci`. Non
+invocare quella skill: può attivarla solo lui.
